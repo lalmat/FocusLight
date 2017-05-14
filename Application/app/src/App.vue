@@ -1,24 +1,27 @@
 <template>
-    <div>
+    <div class="viewport">
         <div id="port">
-            FocusLight Port:
-            <select v-model="cnxPort">
-                <option v-for="p in cnxPortAry" :value="p">{{ p }}</option>
-            </select>
+            <div class="selection">
+                FocusLight Port:<br />
+                <select v-model="cnxPort">
+                    <option v-for="p in cnxPortAry" :value="p">{{ p }}</option>
+                </select>
+            </div>
+            <span class="state">
             Status: [
               <span v-show="connected">Connected</span>
               <span v-show="!connected">Disconnected</span>
             ]
+            </span>
         </div>
-        <input type="radio" name="color" v-model="color" value="R"> Rouge |
-        <input type="radio" name="color" v-model="color" value="G"> Vert |
-        <input type="radio" name="color" v-model="color" value="B"> Bleu |
-        <input type="radio" name="color" v-model="color" value="L"> Bleu Faible |
-        <input type="radio" name="color" v-model="color" value="Y"> Jaune |
-        <input type="radio" name="color" v-model="color" value="M"> Magenta |
-        <input type="radio" name="color" v-model="color" value="C"> Cyan |
-        <input type="radio" name="color" v-model="color" value="W"> White |
-        <input type="radio" name="color" v-model="color" value="O"> OFF
+        <div class="colorList">
+            <div class="colorItem" v-for="c in colorAry" :style="{'background-color':c.color}">
+                <span class="colorDot" :style="{'background-color':c.color}">
+                  <input :id="c.id" type="radio" name="color" v-model="color" :value="c.id">
+                </span>
+                <label :for="c.id">{{ c.text }}</label>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -37,6 +40,17 @@
           cnxPort: '',
           cnxPortAry: [],
           cnxSP:null,
+          colorAry : [
+            {id:'R', color:'#FF0000', text:'Red'},
+            {id:'G', color:'#00FF00', text:'Green'},
+            {id:'B', color:'#0000FF', text:'Blue'},
+            {id:'L', color:'#000077', text:'DarkBlue'},
+            {id:'Y', color:'#00FF00', text:'Green'},
+            {id:'M', color:'#FF00FF', text:'Magenta'},
+            {id:'C', color:'#00FFFF', text:'Cyan'},
+            {id:'W', color:'#FFFFFF', text:'White'},
+            {id:'O', color:'#000000', text:'OFF'}
+          ]
         };
       },
       watch: {
@@ -76,29 +90,35 @@
 <style>
     html {
         height: 100%;
+        font-family:sans-serif;
+        font-size:0.85em;
     }
     body {
-        display: flex;
-        align-items: center;
-        justify-content: center;
         height: 100%;
         margin: auto;
+        overflow-x: hidden;
+        overflow-y: hidden;
+        background-color: #353535;
+        color:#aaa;
     }
-    #app {
-        color: #2c3e50;
-        max-width: 600px;
-        font-family: Source Sans Pro, Helvetica, sans-serif;
-        text-align: center;
+    #port {
+        padding: 0.7em;
+        width:100%
+
     }
-    #app a {
-        color: #42b983;
-        text-decoration: none;
+    #port .selection select {
+        width: 100%;
     }
-    #app p {
-        text-align: justify;
+    .viewport {
+        width: 90%;
     }
-    .logo {
-        width: auto;
-        height: 100px;
+    .colorItem label {
+        padding: 0.5em;
+        display: inline-block;
+        width: 5em;
+    }
+    .colorList {
+        margin-left: 0.7em;
+        width: 100%;
     }
 </style>
