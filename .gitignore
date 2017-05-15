@@ -1,3 +1,4 @@
 Application/node_modules
 Application/app/build
 *.gcode
+.idea
