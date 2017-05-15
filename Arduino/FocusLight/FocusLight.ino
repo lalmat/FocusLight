@@ -12,7 +12,7 @@ void setup() {
   pinMode(LED_G, OUTPUT);
   pinMode(LED_B, OUTPUT);
   Serial.println("FocusLight Ready");
-  Serial.setTimeout(5);
+  Serial.setTimeout(10);
 }
 
 void loop() {
