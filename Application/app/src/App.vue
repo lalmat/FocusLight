@@ -15,12 +15,11 @@
             </span>
         </div>
         <div class="colorList">
-            <div class="colorItem" v-for="c in colorAry" :style="{'background-color':c.color}">
-                <span class="colorDot" :style="{'background-color':c.color}">
-                  <input :id="c.id" type="radio" name="color" v-model="color" :value="c.id">
-                </span>
-                <label :for="c.id">{{ c.text }}</label>
-            </div>
+            R: <input type="number" min="0" max="255" v-model="Led_R"><br />
+            G: <input type="number" min="0" max="255" v-model="Led_G"><br />
+            B: <input type="number" min="0" max="255" v-model="Led_B"><br />
+            <br />
+            {{ color }}
         </div>
     </div>
 </template>
@@ -35,23 +34,19 @@
       data: function() {
         return {
           connected: false,
-          color: "",
           message: 'Hello Vue!',
           cnxPort: '',
           cnxPortAry: [],
           cnxSP:null,
-          colorAry : [
-            {id:'R', color:'#FF0000', text:'Red'},
-            {id:'G', color:'#00FF00', text:'Green'},
-            {id:'B', color:'#0000FF', text:'Blue'},
-            {id:'L', color:'#000077', text:'DarkBlue'},
-            {id:'Y', color:'#00FF00', text:'Green'},
-            {id:'M', color:'#FF00FF', text:'Magenta'},
-            {id:'C', color:'#00FFFF', text:'Cyan'},
-            {id:'W', color:'#FFFFFF', text:'White'},
-            {id:'O', color:'#000000', text:'OFF'}
-          ]
+          Led_R:0,
+          Led_G:0,
+          Led_B:0,
         };
+      },
+      computed: {
+        color: function() {
+          return this.Led_R+";"+this.Led_G+";"+this.Led_B;
+        }
       },
       watch: {
         'color' : function () {
@@ -79,7 +74,7 @@
         },
         connect : function () {
           var v = this;
-          this.cnxSP = new SerialPort(this.cnxPort, null, function() {
+          this.cnxSP = new SerialPort(this.cnxPort, {baudRate: 115200}, function() {
             v.connected = true;
           });
         }
